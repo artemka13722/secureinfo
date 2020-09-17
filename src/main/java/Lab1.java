@@ -73,22 +73,23 @@ public class Lab1 {
     }
 
     //3) Diffie-Hellman Key Exchange
-    public long[] dh() {
+    public long[] dh(long pow) {
         long q;
         long p;
+        long Xa;
+        long Xb;
+        long g;
         do {
-            q = getLongPrime(2);
-            p = 2 * q + 1;
-        } while (isPrime(p));
+            do {
+                q = getLongPrime(pow);
+                p = 2 * q + 1;
+            } while (isPrime(p));
 
-        long Xa = genLongLimit(p);
-        long Xb = genLongLimit(p);
+            Xa = genLongLimit(p);
+            Xb = genLongLimit(p);
 
-        long g =  genLongLimit(p - 1);
-
-        if(powMod(g,q,p) != 1){
-            throw new RuntimeException("p == 1");
-        }
+            g = genLongLimit(p - 1);
+        } while (powMod(g, q, p) != 1);
 
         long Ya = powMod(g, Xa, p);
         long Yb = powMod(g, Xb, p);
