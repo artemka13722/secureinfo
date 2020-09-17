@@ -2,16 +2,51 @@ import java.util.HashMap;
 
 public class Lab1 {
 
-    //1) y = a^x (mod p)
-    public long generator(int pow) {
+
+    private boolean isPrime(long p) {
+        if (p <= 1) return false;
+
+        long b = (long) Math.pow(p, 0.5);
+
+        for (int i = 2; i <= b; i++) {
+            if ((p % i) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public long getLongPrime(long pow) {
+        long leftLimit = 1L;
+        long rightLimit = (long) Math.pow(10, pow);
+        long rand;
+        do {
+            rand = leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
+        } while (isPrime(rand));
+        return rand;
+    }
+
+
+    public long genLong(int pow) {
         long leftLimit = 1L;
         long rightLimit = (long) Math.pow(10, pow);
         return leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
     }
 
+    public long genLongLimit(long limit) {
+        long leftLimit = 1L;
+        long rightLimit = limit;
+        return leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
+    }
+
+    //1) y = a^x (mod p)
     public long powMod(long a, long x, long p) {
         long res = 1;
         while (x != 0) {
+
+            //Если xi, = 1 то текущий результат умножается на a, а само число a возводится в квадрат.
+            //Если xi, = 0, то требуется только возвести a в квадрат.
+
             if (x % 2 > 0) {
                 res = (res * a) % p;
             }
@@ -38,27 +73,48 @@ public class Lab1 {
     }
 
     //3) Diffie-Hellman Key Exchange
-    public long dh(long public_num, long private_num, long mod) {
-        if (public_num >= mod) {
-            throw new RuntimeException("Public key must be less than mod");
+    public long[] dh() {
+        long q;
+        long p;
+        do {
+            q = getLongPrime(2);
+            p = 2 * q + 1;
+        } while (isPrime(p));
+
+        long Xa = genLongLimit(p);
+        long Xb = genLongLimit(p);
+
+        long g =  genLongLimit(p - 1);
+
+        if(powMod(g,q,p) != 1){
+            throw new RuntimeException("p == 1");
         }
-        return powMod(public_num, private_num, mod);
+
+        long Ya = powMod(g, Xa, p);
+        long Yb = powMod(g, Xb, p);
+
+        long Zab = powMod(Ya, Xb, p);
+        long Zba = powMod(Yb, Yb, p);
+
+        return new long[]{Zab, Zba};
     }
 
-    //4) Baby-step Giant-step (a, y, p); y = a^x (mod p)  =>  x = log_a(y) mod p;
+    //4) Baby-step Giant-step (a, y, p);
+    // y = a^x (mod p)  =>  x = log_a(y) mod p;
     public long bsgs(long a, long y, long p) {
         long n = (long) Math.ceil(Math.sqrt(p - 1));
-        long nRound = Math.round(n);
 
         HashMap<Long, Long> table = new HashMap();
 
-        for (long i = 0; i < nRound; i++) {
+        //map of pairs a^{1...m} (mod p), baby step
+        for (long i = 0; i < n; i++) {
             table.put(powMod(a, i, p), i);
         }
-
+        //Fermat's Little Theorem
         long c = powMod(a, n * (p - 2), p);
 
-        for (long i = 0; i < nRound; i++) {
+        //giant step
+        for (long i = 0; i < n; i++) {
             long res = (y * powMod(c, i, p)) % p;
             if (table.get(res) != null) {
                 return i * n + table.get(res);
