@@ -26,7 +26,6 @@ public class Lab1 {
         return rand;
     }
 
-
     public long genLong(int pow) {
         long leftLimit = 1L;
         long rightLimit = (long) Math.pow(10, pow);
@@ -43,10 +42,6 @@ public class Lab1 {
     public long powMod(long a, long x, long p) {
         long res = 1;
         while (x != 0) {
-
-            //Если xi, = 1 то текущий результат умножается на a, а само число a возводится в квадрат.
-            //Если xi, = 0, то требуется только возвести a в квадрат.
-
             if (x % 2 > 0) {
                 res = (res * a) % p;
             }
@@ -55,7 +50,6 @@ public class Lab1 {
         }
         return res;
     }
-
 
     //2) ax + by = gcd(a, b)
     public long[] gcd(long a, long b) {
@@ -69,6 +63,9 @@ public class Lab1 {
             u = v;
             v = t;
         }
+        if((a*u[1] + b*u[2]) != u[0]){
+            throw new RuntimeException("Error euclid algorithm");
+        }
         return u;
     }
 
@@ -79,6 +76,7 @@ public class Lab1 {
         long Xa;
         long Xb;
         long g;
+
         do {
             do {
                 q = getLongPrime(pow);
@@ -103,7 +101,7 @@ public class Lab1 {
     //4) Baby-step Giant-step (a, y, p);
     // y = a^x (mod p)  =>  x = log_a(y) mod p;
     public long bsgs(long a, long y, long p) {
-        long n = (long) Math.ceil(Math.sqrt(p - 1));
+        long n = (long) Math.ceil(Math.sqrt(p));
 
         HashMap<Long, Long> table = new HashMap();
 
@@ -121,6 +119,6 @@ public class Lab1 {
                 return i * n + table.get(res);
             }
         }
-        return 0;
+        throw new RuntimeException("нет ответа");
     }
 }
