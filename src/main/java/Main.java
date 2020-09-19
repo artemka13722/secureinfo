@@ -15,7 +15,12 @@ public class Main {
         out = lab1.dh(powDh);
         System.out.printf("DH Zab: %d Zba: %d\n", out[0], out[1]);
 
-        System.out.printf("BSGS %d\n", lab1.bsgs(6, 12, 229));
+        try {
+            System.out.printf("BSGS %d\n", lab1.bsgs(6, 12, 229));
+        } catch (RuntimeException e){
+            System.out.println("BSGS нет ответа");
+        }
+
 
 
         System.out.println("/////////////////////////////////////////////");
@@ -28,6 +33,11 @@ public class Main {
         out = lab1.dh(powDh);
         System.out.printf("DH Zab: %d Zba: %d\n", out[0], out[1]);
 
-        System.out.printf("BSGS %d\n", lab1.bsgs(lab1.genLong(pow), lab1.genLong(pow), lab1.getLongPrime(pow)));
+        try {
+            System.out.printf("BSGS %d\n", lab1.bsgs(lab1.genLong(pow), lab1.genLong(pow), lab1.getLongPrime(pow)));
+        } catch (RuntimeException e){
+            System.out.println("BSGS нет ответа");
+        }
+
     }
 }
