@@ -22,7 +22,6 @@ public class Lab1Test {
         Lab1 lab1 = new Lab1();
         long result[] = lab1.gcd(28, 19);
         long out[] = {1, -2, 3};
-
         Assert.assertArrayEquals(result, out);
     }
 

@@ -92,8 +92,10 @@ public class Lab1 {
         long Ya = powMod(g, Xa, p);
         long Yb = powMod(g, Xb, p);
 
-        long Zab = powMod(Ya, Xb, p);
-        long Zba = powMod(Yb, Yb, p);
+        long Zab = powMod(Yb, Xa, p);
+        long Zba = powMod(Ya, Xb, p);
+
+        //обратить внимание на ключи
 
         return new long[]{Zab, Zba};
     }
@@ -101,21 +103,40 @@ public class Lab1 {
     //4) Baby-step Giant-step (a, y, p);
     // y = a^x (mod p)  =>  x = log_a(y) mod p;
     public long bsgs(long a, long y, long p) {
+        if(y >= p){
+            throw new RuntimeException("error");
+        }
+
         long n = (long) Math.ceil(Math.sqrt(p));
 
         HashMap<Long, Long> table = new HashMap();
 
         //map of pairs a^{1...m} (mod p), baby step
-        for (long i = 0; i < n; i++) {
+        for (long i = 0; i < n - 1; i++) {
             table.put(powMod(a, i, p), i);
         }
         //Fermat's Little Theorem
         long c = powMod(a, n * (p - 2), p);
 
         //giant step
-        for (long i = 0; i < n; i++) {
+        for (long i = 1; i < n; i++) {
             long res = (y * powMod(c, i, p)) % p;
             if (table.get(res) != null) {
+
+                /*System.out.println("a");
+                System.out.println(a);
+                System.out.println("y");
+                System.out.println(y);
+                System.out.println("p");
+                System.out.println(p);
+
+                System.out.println("a^x%p = y");
+                System.out.println(powMod(a, i * n + table.get(res), p));*/
+                long check = powMod(a, i * n + table.get(res), p);
+
+                if(check != y){
+                    throw new RuntimeException("это провал века");
+                }
                 return i * n + table.get(res);
             }
         }

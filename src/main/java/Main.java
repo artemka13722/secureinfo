@@ -5,7 +5,7 @@ public class Main {
 
         int pow = 9;
         int powDh = 9;
-        long out[];
+        long[] out;
 
         System.out.printf("PowMods %d\n", lab1.powMod(lab1.genLong(pow),lab1.genLong(pow),lab1.genLong(pow)));
 
@@ -18,8 +18,7 @@ public class Main {
         try {
             System.out.printf("BSGS %d\n", lab1.bsgs(lab1.genLong(pow), lab1.genLong(pow), lab1.getLongPrime(pow)));
         } catch (RuntimeException e){
-            System.out.println("BSGS нет ответа");
+            System.out.println(e.toString());
         }
-
     }
 }
