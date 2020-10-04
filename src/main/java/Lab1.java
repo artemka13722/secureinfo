@@ -1,7 +1,29 @@
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Lab1 {
+    public static long getPRoot(long p) {
+        for (long i = 0; i < p; i++)
+            if (isPRoot(p, i))
+                return i;
+        return 0;
+    }
 
+    public static boolean isPRoot(long p, long a) {
+        if (a == 0 || a == 1)
+            return false;
+        long last = 1;
+
+        Set<Long> set = new HashSet<>();
+        for (long i = 0; i < p - 1; i++) {
+            last = (last * a) % p;
+            if (set.contains(last)) // Если повтор
+                return false;
+            set.add(last);
+        }
+        return true;
+    }
 
     private boolean isPrime(long p) {
         if (p <= 1) return false;
@@ -34,8 +56,7 @@ public class Lab1 {
 
     public long genLongLimit(long limit) {
         long leftLimit = 1L;
-        long rightLimit = limit;
-        return leftLimit + (long) (Math.random() * (rightLimit - leftLimit));
+        return leftLimit + (long) (Math.random() * (limit - leftLimit));
     }
 
     //1) y = a^x (mod p)
