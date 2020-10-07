@@ -1,13 +1,39 @@
+import org.apache.commons.io.FileUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Verman {
+    private int length;
 
-    public void test(){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Input text: ");
-        String text = scanner.nextLine();
-        char[] achText = text.toCharArray();
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
+    }
+
+    public byte[] getFIleBytes(String filePath) throws IOException {
+        File file = new File(filePath);
+        return FileUtils.readFileToByteArray(file);
+    }
+
+    public void getFileByBytes(String filePath, byte[] fileBytes) throws IOException {
+        FileUtils.writeByteArrayToFile(new File(filePath), fileBytes);
+    }
+
+    public void test() throws IOException {
+        byte[] fileByte = getFIleBytes("download.jpeg");
+        char[] achText = new char[fileByte.length];
+
+        for (int i = 0; i < fileByte.length; i++) {
+            achText[i] = (char) fileByte[i];
+        }
+
         char[] achKey = new char[achText.length];
         char[] achResult = new char[achText.length];
         Random random = new Random();
@@ -16,14 +42,83 @@ public class Verman {
             achResult[i] = (char) (achText[i] ^ achKey[i]);
         }
 
-        System.out.println("Text: " + String.valueOf(achText));
-        System.out.println("Key: " + String.valueOf(achKey));
-        System.out.println("Result: " + String.valueOf(achResult));
+        byte[] shifr = new byte[fileByte.length];
+        for (int i = 0; i < shifr.length; i++) {
+            shifr[i] = (byte) achResult[i];
+        }
+        getFileByBytes("encVernam.jpeg", shifr);
+
+        PrintWriter pw = new PrintWriter(new FileOutputStream("varmanKey.txt"));
+        pw.println(String.valueOf(achKey));
+        pw.close();
 
         char[] achDecrypt = new char[achText.length];
         for (int i = 0; i < achText.length; i++) {
             achDecrypt[i] = (char) (achResult[i] ^ achKey[i]);
         }
-        System.out.println("Decrypt: " + String.valueOf(achDecrypt));
+
+        byte[] dehifr = new byte[fileByte.length];
+        for (int i = 0; i < achDecrypt.length; i++) {
+            dehifr[i] = (byte)achDecrypt[i];
+        }
+
+        getFileByBytes("decVernam.jpeg", dehifr);
     }
+
+    /*public void getEncFile(String input, String output) throws IOException {
+        byte[] fileByte = getFIleBytes(input);
+
+        setLength(fileByte.length);
+
+        char[] achText = new char[getLength()];
+
+        for (int i = 0; i < getLength(); i++) {
+            achText[i] = (char) fileByte[i];
+        }
+
+        char[] achKey = new char[getLength()];
+        char[] achResult = new char[getLength()];
+        Random random = new Random();
+        for (int i = 0; i < getLength(); i++) {
+            achKey[i] = (char) random.nextInt(Character.MAX_VALUE);
+            achResult[i] = (char) (achText[i] ^ achKey[i]);
+        }
+
+        byte[] shifr = new byte[getLength()];
+        for (int i = 0; i < getLength(); i++) {
+            shifr[i] = (byte) achResult[i];
+        }
+        getFileByBytes(output, shifr);
+
+        PrintWriter pw = new PrintWriter(new FileOutputStream("varmanKey.txt"));
+        pw.println(String.valueOf(achKey));
+        pw.close();
+    }*/
+
+    /*public void getDecFile(String input, String output) throws IOException {
+        byte[] fileByte = getFIleBytes(input);
+        char[] achResult = new char[getLength()];
+
+        File file = new File("varmanKey.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String line = br.readLine();
+        br.close();
+        char[] achKey = line.toCharArray();
+
+        for (int i = 0; i < getLength(); i++) {
+            achResult[i] = (char) fileByte[i];
+        }
+
+        char[] achDecrypt = new char[getLength()];
+        for (int i = 0; i < getLength(); i++) {
+            achDecrypt[i] = (char) (achResult[i] ^ achKey[i]);
+        }
+
+        byte[] dehifr = new byte[getLength()];
+        for (int i = 0; i < getLength(); i++) {
+            dehifr[i] = (byte)achDecrypt[i];
+        }
+
+        getFileByBytes(output, dehifr);
+    }*/
 }
