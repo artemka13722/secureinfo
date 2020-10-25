@@ -1,7 +1,9 @@
+import lab3.RSA;
+
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        /*Lab1 lab1 = new Lab1();
+        /*lab1.Lab1 lab1 = new lab1.Lab1();
 
         int pow = 9;
         int powDh = 9;
@@ -21,17 +23,34 @@ public class Main {
             System.out.println(e.toString());
         }*/
 
-        Elgmal test = new Elgmal();
-        test.getEncryptFile("download.jpeg","enc.jpeg");
-        test.getDecryptFile("enc.jpeg", "dec.jpeg");
+/*        lab2.Elgmal test = new lab2.Elgmal();
+        test.getEncryptFile("download.jpeg","ElgamEnc.jpeg");
+        test.getDecryptFile("ElgamEnc.jpeg", "ElgamDec.jpeg");
 
-/*        Shamira shamira = new Shamira();
-        shamira.test();*/
+        lab2.Shamira shamira = new lab2.Shamira();
+        shamira.test("download.jpeg", "ShamiraDec.jpeg");
 
-/*        Verman verman = new Verman();
-        verman.test();*/
+        lab2.Verman verman = new lab2.Verman();
+        verman.test("download.jpeg", "VernamDec.jpeg");
 
-/*        RSA rsa = new RSA();
-        rsa.test();*/
+        lab2.RSA rsa = new lab2.RSA();
+        rsa.test("download.jpeg", "RSADec.jpeg");
+
+
+        lab2.Elgmal elgmal2 = new lab2.Elgmal();
+        elgmal2.getEncryptFile("music.mp3","ElgamEnc.mp3");
+        elgmal2.getDecryptFile("ElgamEnc.mp3", "ElgamDec.mp3");
+
+        lab2.Shamira shamira2 = new lab2.Shamira();
+        shamira2.test("music.mp3", "ShamiraDec.mp3");
+
+        lab2.Verman verman2 = new lab2.Verman();
+        verman2.test("music.mp3", "VernamDec.mp3");
+
+        lab2.RSA rsa2 = new lab2.RSA();
+        rsa2.test("music.mp3", "RSADec.mp3");*/
+
+        RSA rsa = new RSA();
+        rsa.test();
     }
 }

@@ -1,3 +1,4 @@
+import lab1.Lab1;
 import org.junit.Assert;
 import org.junit.Test;
 
