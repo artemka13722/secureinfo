@@ -36,7 +36,7 @@ public class Elgmal extends Lab1 {
             p = getLongPrime(6);
         } while (maxM >= p);
 
-        g = Lab1.getPRoot(p);
+        g = getPRoot(p);
         c = genLongLimit(p - 1);
         d = powMod(g, c, p);
 

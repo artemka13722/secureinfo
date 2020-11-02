@@ -1,4 +1,4 @@
-import lab3.RSA;
+import lab3.RSA2;
 
 public class Main {
 
@@ -50,7 +50,7 @@ public class Main {
         lab2.RSA rsa2 = new lab2.RSA();
         rsa2.test("music.mp3", "RSADec.mp3");*/
 
-        RSA rsa = new RSA();
-        rsa.test();
+        RSA2 rsa = new RSA2();
+        rsa.test("test.txt");
     }
 }

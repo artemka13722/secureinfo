@@ -18,4 +18,6 @@ dependencies {
 
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    compile 'commons-codec:commons-codec:1.15'
 }
