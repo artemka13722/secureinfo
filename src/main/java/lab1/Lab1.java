@@ -89,7 +89,13 @@ public class Lab1 {
     }
 
     //2) ax + by = gcd(a, b)
-    public long[] gcd(long a, long b) {
+    public static long[] gcd(long a, long b) {
+        if (a < b) {
+            long temp;
+            temp = a;
+            a = b;
+            b = temp;
+        }
 
         long[] u = {a, 1, 0};
         long[] v = {b, 0, 1};
