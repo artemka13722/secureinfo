@@ -46,10 +46,10 @@ public class DSA {
     }
 
     public DSA() {
-        SecureRandom srand = new SecureRandom();
-        srand.setSeed(System.currentTimeMillis());
+        SecureRandom sRand = new SecureRandom();
+        sRand.setSeed(System.currentTimeMillis());
         do {
-            x = new BigInteger(String.valueOf(srand.nextInt(Q.intValue()) + 1));
+            x = new BigInteger(String.valueOf(sRand.nextInt(Q.intValue()) + 1));
             y = A.modPow(x, P);
         } while (y.compareTo(BigInteger.valueOf(1)) <= 0);
 //        System.out.println("X = "+x+" Y = "+y);

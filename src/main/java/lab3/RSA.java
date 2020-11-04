@@ -12,22 +12,20 @@ public class RSA extends Lab1 {
 
     public void test(String inputFile) throws IOException, SignatureException {
 
-        long p,q,N;
-        do {
-            p = getLongPrime(4);
-            q = getLongPrime(4);
-            N = p * q;
-        } while (128 > N);
+        long p, q, N;
+        p = getLongPrime(4);
+        q = getLongPrime(4);
+        N = p * q;
 
         long fn = (p - 1) * (q - 1);
 
         long d = genLongLimit(fn - 1);
-        while (gcd(d, fn)[0] != 1){
+        while (gcd(d, fn)[0] != 1) {
             d -= 1;
         }
 
         long c = gcd(fn, d)[2];
-        if(c < 0){
+        if (c < 0) {
             c += fn;
         }
 
@@ -51,7 +49,7 @@ public class RSA extends Lab1 {
 
         long w = powMod(s, d, n);
 
-        System.out.println("message = "+hash+" check = "+w);
+        System.out.println("message = " + hash + " check = " + w);
 
         if (w != hash.longValue()) {
             throw new SignatureException("digital signature RSA is invalid");

@@ -1,4 +1,4 @@
-import lab3.ElGamal;
+import lab3.RSA;
 
 public class Main {
 
@@ -50,11 +50,11 @@ public class Main {
         lab2.RSA rsa2 = new lab2.RSA();
         rsa2.test("music.mp3", "RSADec.mp3");*/
 
-/*        RSA2 rsa = new RSA2();
-        rsa.test("music.mp3");*/
+        RSA rsa = new RSA();
+        rsa.test("music.mp3");
 
-        ElGamal elGamal = new ElGamal();
-        elGamal.test("test.txt");
+/*        ElGamal elGamal = new ElGamal();
+        elGamal.test("test.txt");*/
 
 /*        DSA.generateParameters();
 
