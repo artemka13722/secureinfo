@@ -1,4 +1,4 @@
-import lab3.RSA;
+import lab3.DSA;
 
 public class Main {
 
@@ -50,18 +50,30 @@ public class Main {
         lab2.RSA rsa2 = new lab2.RSA();
         rsa2.test("music.mp3", "RSADec.mp3");*/
 
-        RSA rsa = new RSA();
-        rsa.test("music.mp3");
+/*        RSA rsa = new RSA();
+        rsa.createKey();
+        long s = rsa.signatureFileMD5("music.mp3", rsa.getC(), rsa.getN());
+        System.out.println("RSA подпись: " + s);
+        rsa.checkSignature("music.mp3", s, rsa.getD(), rsa.getN());*/
 
 /*        ElGamal elGamal = new ElGamal();
-        elGamal.test("test.txt");*/
+        elGamal.createKey();
+        elGamal.signatureFile("music.mp3", elGamal.getP(), elGamal.getG(), elGamal.getX());
+        System.out.println("p " + elGamal.getP());
+        System.out.println("g " + elGamal.getG());
+        System.out.println("y " + elGamal.getY());
+        System.out.println("r " + elGamal.getR());
+        System.out.println("S " + elGamal.getS());
+        elGamal.checkSignature("music.mp3", elGamal.getY(), elGamal.getR(), elGamal.getS(), elGamal.getP(), elGamal.getG());*/
 
-/*        DSA.generateParameters();
+
+
+        DSA.generateParameters();
 
         DSA A = new DSA();
         DSA B = new DSA();
 
-        A.signFile("music.mp3");
-        B.checkSign("music.mp3", A.getR(), A.getS(), A.getY());*/
+        A.signatureFile("music.mp3");
+        B.checkSignature("music.mp3", A.getR(), A.getS(), A.getY());
     }
 }

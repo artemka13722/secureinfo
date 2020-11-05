@@ -42,7 +42,6 @@ public class DSA {
         do {
             A = getRandomBigInteger(16);
         } while (!A.modPow(Q, P).equals(BigInteger.ONE) || A.equals(BigInteger.ONE));
-//        System.out.println("p = "+b+" * "+Q+" + 1 = "+P+"\na = "+A);
     }
 
     public DSA() {
@@ -52,10 +51,9 @@ public class DSA {
             x = new BigInteger(String.valueOf(sRand.nextInt(Q.intValue()) + 1));
             y = A.modPow(x, P);
         } while (y.compareTo(BigInteger.valueOf(1)) <= 0);
-//        System.out.println("X = "+x+" Y = "+y);
     }
 
-    public void signFile(String pathFile) throws IOException {
+    public void signatureFile(String pathFile) throws IOException {
         SecureRandom srand = new SecureRandom();
         srand.setSeed(System.currentTimeMillis());
 
@@ -64,14 +62,13 @@ public class DSA {
         hash = hash.mod(new BigInteger(String.valueOf(Q)));
         long k;
         do {
-            k = srand.nextInt(Q.intValue() + 2) - 1;
+            k = srand.nextInt(Q.intValue());
             r = A.modPow(BigInteger.valueOf(k), P).mod(Q);
             s = x.multiply(r).add(hash.multiply(BigInteger.valueOf(k))).mod(Q);
         } while (r.equals(BigInteger.ZERO) || s.equals(BigInteger.ZERO));
-//        System.out.println(" k = "+k+" r = "+r+" s = "+s);
     }
 
-    public void checkSign(String pathFile, BigInteger r_sign, BigInteger s_sign, BigInteger y_open) throws IOException, SignatureException {
+    public void checkSignature(String pathFile, BigInteger r_sign, BigInteger s_sign, BigInteger y_open) throws IOException, SignatureException {
         String checksumMD5 = DigestUtils.md5Hex(new FileInputStream(pathFile));
         BigInteger hash = new BigInteger(checksumMD5, 16);
         hash = hash.mod(new BigInteger(String.valueOf(Q)));
@@ -92,9 +89,7 @@ public class DSA {
 
         BigInteger v = (A.pow(u1.intValue()).multiply(y_open.pow(u2.intValue())).mod(P)).mod(Q);
 
-        if (v.compareTo(r_sign) == 0) {
-            System.out.println("r = " + r_sign + " v = " + v);
-        } else {
+        if (v.compareTo(r_sign) != 0) {
             throw new SignatureException("digital signature DSA is invalid");
         }
     }
