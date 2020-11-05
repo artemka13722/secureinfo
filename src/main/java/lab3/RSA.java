@@ -5,8 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.SignatureException;
 
@@ -37,12 +36,21 @@ public class RSA extends Lab1 {
         }
     }
 
+    private void saveKey(long S) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(new FileOutputStream("RSAkey.txt"));
+        pw.println("s:" + S);
+        pw.println("d:" + d);
+        pw.println("n:" + N);
+        pw.close();
+    }
+
     public long signatureFileMD5(String pathFile, long c, long n) throws IOException {
         String checksumMD5 = DigestUtils.md5Hex(new FileInputStream(pathFile));
         BigInteger hash = new BigInteger(checksumMD5, 16);
         hash = hash.mod(new BigInteger(String.valueOf(n)));
 
         long S = powMod(hash.longValue(), c, n);
+        saveKey(S);
         return S;
     }
 

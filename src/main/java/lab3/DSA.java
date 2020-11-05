@@ -4,8 +4,7 @@ import lab1.Lab1;
 import lombok.Getter;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.security.SignatureException;
@@ -24,6 +23,14 @@ public class DSA {
     private BigInteger r;
     @Getter
     private BigInteger s;
+
+    private void saveKey() throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(new FileOutputStream("DSAkey.txt"));
+        pw.println("r:" + r);
+        pw.println("s:" + s);
+        pw.println("y:" + y);
+        pw.close();
+    }
 
     public static void generateParameters() {
         BigInteger b, temp_P;
@@ -66,6 +73,7 @@ public class DSA {
             r = A.modPow(BigInteger.valueOf(k), P).mod(Q);
             s = x.multiply(r).add(hash.multiply(BigInteger.valueOf(k))).mod(Q);
         } while (r.equals(BigInteger.ZERO) || s.equals(BigInteger.ZERO));
+        saveKey();
     }
 
     public void checkSignature(String pathFile, BigInteger r_sign, BigInteger s_sign, BigInteger y_open) throws IOException, SignatureException {

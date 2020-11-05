@@ -5,8 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.apache.commons.codec.digest.DigestUtils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.SignatureException;
 
@@ -29,6 +28,16 @@ public class ElGamal extends Lab1 {
         y = powMod(g, x, p);
     }
 
+    private void saveKey() throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(new FileOutputStream("ElGamalkey.txt"));
+        pw.println("p:" + p);
+        pw.println("g:" + g);
+        pw.println("y:" + y);
+        pw.println("r:" + r);
+        pw.println("s:" + S);
+        pw.close();
+    }
+
     public void signatureFile(String pathFile, long p, long g, long x) throws IOException {
         long k, k_1;
 
@@ -48,6 +57,7 @@ public class ElGamal extends Lab1 {
         r = powMod(g, k, p);
         BigInteger u = hash.subtract(BigInteger.valueOf(x * r)).mod(BigInteger.valueOf(p - 1));
         S = u.multiply(BigInteger.valueOf(k_1)).mod(BigInteger.valueOf(p - 1));
+        saveKey();
     }
 
     public void checkSignature(String pathFile, long Y_open, long r_open, BigInteger S, long p, long g) throws IOException, SignatureException {
