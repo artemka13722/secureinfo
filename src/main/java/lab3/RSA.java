@@ -17,7 +17,7 @@ public class RSA extends Lab1 {
     private long c;
     private long d;
 
-    public void createKey() throws IOException, SignatureException {
+    public void createKey() {
 
         long p = getLongPrime(4);
         long q = getLongPrime(4);

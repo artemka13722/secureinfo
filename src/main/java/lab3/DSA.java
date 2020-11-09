@@ -36,19 +36,23 @@ public class DSA {
         BigInteger b, temp_P;
         do {
             do {
-                Q = getRandomBigInteger(16);
+                Q = getRandomBigInteger(16).add(BigInteger.valueOf(1000));
             } while (!Q.isProbablePrime(100));
             do {
-                P = getRandomBigInteger(16);
+                P = getRandomBigInteger(31);
             } while (!P.isProbablePrime(100));
 
             b = P.subtract(BigInteger.valueOf(1)).divide(Q);
             temp_P = b.multiply(Q).add(BigInteger.valueOf(1));
         } while (!temp_P.equals(P));
 
+        System.out.println(Q);
+        System.out.println(P);
+
         do {
-            A = getRandomBigInteger(16);
+            A = getRandomBigInteger(32);
         } while (!A.modPow(Q, P).equals(BigInteger.ONE) || A.equals(BigInteger.ONE));
+        System.out.println(A);
     }
 
     public DSA() {
@@ -61,15 +65,15 @@ public class DSA {
     }
 
     public void signatureFile(String pathFile) throws IOException {
-        SecureRandom srand = new SecureRandom();
-        srand.setSeed(System.currentTimeMillis());
+        SecureRandom sRand = new SecureRandom();
+        sRand.setSeed(System.currentTimeMillis());
 
         String checksumMD5 = DigestUtils.md5Hex(new FileInputStream(pathFile));
         BigInteger hash = new BigInteger(checksumMD5, 16);
         hash = hash.mod(new BigInteger(String.valueOf(Q)));
         long k;
         do {
-            k = srand.nextInt(Q.intValue());
+            k = sRand.nextInt(Q.intValue());
             r = A.modPow(BigInteger.valueOf(k), P).mod(Q);
             s = x.multiply(r).add(hash.multiply(BigInteger.valueOf(k))).mod(Q);
         } while (r.equals(BigInteger.ZERO) || s.equals(BigInteger.ZERO));
