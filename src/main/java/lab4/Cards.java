@@ -23,11 +23,11 @@ public class Cards {
         initSuit();
     }
 
-    public void initDeck(BigInteger P) {
-        SecureRandom srand = new SecureRandom();
-        srand.setSeed(System.currentTimeMillis());
+    public void initDeck(BigInteger p) {
+        SecureRandom sRand = new SecureRandom();
+        sRand.setSeed(System.currentTimeMillis());
         for (int i = 0; i < NUM_OF_CARDS; i++) {
-            deck.add(new BigInteger(String.valueOf(srand.nextInt(P.intValue()-2)+1)));
+            deck.add(new BigInteger(String.valueOf(sRand.nextInt(p.intValue() - 1))));
         }
     }
 
@@ -39,21 +39,21 @@ public class Cards {
             if (cardDeck.get(i).equals(cardValue)) {
                 suit = i / NUM_OF_VALUES;
                 value = i % NUM_OF_VALUES;
-                cardName = valuesName.get(value)+" "+suitName.get(suit);
+                cardName = valuesName.get(value) + " " + suitName.get(suit);
                 return cardName;
             }
         }
         return null;
     }
 
-    public void initSuit(){
+    public void initSuit() {
         suitName.add("Черви");
         suitName.add("Буби");
         suitName.add("Пики");
         suitName.add("Крести");
     }
 
-    public void initCard(){
+    public void initCard() {
         valuesName.add("2");
         valuesName.add("3");
         valuesName.add("4");

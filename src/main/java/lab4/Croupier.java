@@ -5,6 +5,8 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.exit;
+
 public class Croupier {
     private final BigInteger p;
     private final Cards chargedDeck;
@@ -23,9 +25,15 @@ public class Croupier {
         srand.setSeed(System.currentTimeMillis());
 
         for (int i = 0; i < numOfCards; i++) {
-            randomInteger = srand.nextInt(cards.size());
-            selectedCards.add(cards.get(randomInteger));
-            cards.remove(randomInteger);
+
+            try {
+                randomInteger = srand.nextInt(cards.size());
+                selectedCards.add(cards.get(randomInteger));
+                cards.remove(randomInteger);
+            } catch (IllegalArgumentException e){
+                System.out.println("Превышено количество игроков");
+                exit(0);
+            }
         }
         return selectedCards;
     }

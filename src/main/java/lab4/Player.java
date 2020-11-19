@@ -44,7 +44,7 @@ public class Player {
     }
 
     public List<BigInteger> encryptCards(List<BigInteger> cards) {
-        ArrayList<BigInteger> uDeck = new ArrayList<>(cards.size());
+        List<BigInteger> uDeck = new ArrayList<>(cards.size());
         for (BigInteger card : cards) {
             uDeck.add(card.modPow(c, p));
         }

@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        int numPlayers = 5;
+        int numPlayers = 24;
         List<BigInteger> uiDeck;
         List<BigInteger> buyIn;
         Player.generateBigPrimeP();
@@ -17,7 +17,7 @@ public class Main {
         Croupier croupier = new Croupier(cards, Player.getP());
 
         for (int i = 0; i < numPlayers; i++) {
-            players[i] = new Player(String.valueOf(i+1), cards);
+            players[i] = new Player(String.valueOf(i + 1), cards);
         }
 
         List<BigInteger> uDeck = cards.getDeck();
@@ -28,15 +28,15 @@ public class Main {
 
         for (int i = 0; i < numPlayers; i++) {
             uiDeck = croupier.chooseCard(uDeck, 2);
-            for (int j = (i+1)%numPlayers; j != i; j = (j+1)%numPlayers) {
-                uiDeck =  players[j].decryptCards(uiDeck);
+            for (int j = (i + 1) % numPlayers; j != i; j = (j + 1) % numPlayers) {
+                uiDeck = players[j].decryptCards(uiDeck);
             }
             players[i].seeCards(players[i].decryptCards(uiDeck));
         }
 
         buyIn = croupier.chooseCard(uDeck, 5);
         for (int i = 0; i < numPlayers; i++) {
-            buyIn =  players[i].decryptCards(buyIn);
+            buyIn = players[i].decryptCards(buyIn);
         }
         croupier.seeBuyIN(buyIn);
     }
